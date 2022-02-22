@@ -5,13 +5,53 @@
     <!-- <MenuItem /> -->
     <!-- input prop v-model is used to help binding data in 2 ways -->
     <input type="text" v-model="name" />
-    <input type="checkbox" v-model="accept" /> I agree with the agreement
+
+    <!-- v-model="channelNames[0]" or v-model="channelNames[1]" or v-model="channelNames" is right -->
+    <input type="text" v-model="channelNames" /> <br />
+    <input type="text" v-model="channel.name" /> <br />
+    <input type="checkbox" v-model="accept" /> I agree with the agreement <br />
+    <input type="text" :disabled="inputDisabled" />
     <div>
       {{ name }}
     </div>
     <div>
-      <h1 v-show="isShow">Frontend Developer</h1>
-      <button @click="isShow = !isShow">Show/Hide</button>
+      <!-- We can bind id, class or any prop by this syntax: v-bind:id/class... -->
+      <!-- Shorthand :id="id" -->
+      <h1 :id="id" v-show="isShow">Frontend Developer</h1>
+      <h1 :class="{ selected: isActive }">Tran Dang Duy</h1>
+      <button @click="isShow = !isShow">Show/Hide</button> <br />
+      <button @click="inputDisabled = !inputDisabled">Open/Off</button> <br />
+      <button @click="isActive = !isActive">Choose/Unchoose</button> <br />
+
+      <!-- Event handling -->
+      <button v-on:click="channel.name = 'change by click'">
+        Change Input By Click
+      </button>
+      <br />
+      <button v-on:mouseover="channel.name = 'change by hover'">
+        Change Input By Hover
+      </button>
+
+      <!-- prevent default event -->
+      <form action="">
+        <input type="text" v-model="content" />
+        <button type="submit" @click.prevent="content = 'test done'">
+          Prevent Default
+        </button>
+      </form>
+
+      <!-- 
+        ref
+           <input ref="channelName" type="text" v-model="content" />
+           this.$refs.channleName => current html element input
+      -->
+      
+      <!-- 
+        conditional rendering: use v-show
+          <h1 :id="id" v-show="isShow">Frontend Developer</h1>
+          <button @click="isShow = !isShow">Show/Hide</button>
+       -->
+
     </div>
   </div>
 </template>
@@ -27,6 +67,14 @@ export default {
       name: "Tran Dang Duy",
       accept: true,
       isShow: true,
+      id: "dev",
+      inputDisabled: true,
+      isActive: true,
+      channelNames: ["Duy Tran Vlog", "Frontend Channel"],
+      channel: {
+        name: "Easy Frontend",
+      },
+      content: "test prevent default",
     };
   },
   components: {
@@ -45,4 +93,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 } */
+.selected {
+  color: red;
+}
 </style>
