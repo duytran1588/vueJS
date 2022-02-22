@@ -40,18 +40,47 @@
         </button>
       </form>
 
+      <!-- v-else -->
+      <button @click="isDisplay = !isDisplay">
+        <span v-if="isDisplay">Display</span>
+        <span v-else>Hide</span>
+      </button>
       <!-- 
         ref
            <input ref="channelName" type="text" v-model="content" />
            this.$refs.channleName => current html element input
       -->
-      
+
       <!-- 
         conditional rendering: use v-show
           <h1 :id="id" v-show="isShow">Frontend Developer</h1>
           <button @click="isShow = !isShow">Show/Hide</button>
        -->
 
+      <!-- to do list -->
+      <div v-for="(task, index) in taskList" :key="index">
+        {{ task }}
+      </div>
+      <br />
+
+      <!-- to do list with checkbox and add more task-->
+      <input type="text" v-model="newTask" />
+      <button
+        @click="
+          if (newTask !== '') todoList.push({ content: newTask, done: false });
+        "
+      >
+        Add task</button
+      ><br />
+
+      <!-- Add task by method -->
+      <input type="text" v-model="taskName" />
+      <button @click="addTask">Add task by method</button>
+
+      <div v-for="(todo, index) in todoList" :key="index">
+        <input type="checkbox" v-model="todo.done" />
+        <span :class="{ completed: todo.done }"> {{ todo.content }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -75,11 +104,37 @@ export default {
         name: "Easy Frontend",
       },
       content: "test prevent default",
+      isDisplay: true,
+      taskList: ["market", "cook", "code", "sanitary"],
+      todoList: [
+        { content: "market", done: false },
+        { content: "cook", done: false },
+        { content: "code", done: false },
+        { content: "sanitary", done: false },
+      ],
+      newTask: "",
+      taskName: "",
     };
   },
   components: {
     // HelloWorld,
     // MenuItem: MenuItem, //or Menu,
+  },
+  mounted(){
+    // When this component is mounted into DOM tree, the mounted() function will run. Ex: call api, ...
+  },
+  methods: {
+    addTask: function () {
+      if (this.taskName !== "")
+        this.todoList.push({ content: this.taskName, done: false });
+    },
+  },
+  watch: {
+    // if newtask in function data changes, the function newtask will run
+    newTask: function (newValue, oldValue) {
+      console.log("oldValue", oldValue);
+      console.log("newValue", newValue);
+    },
   },
 };
 </script>
@@ -95,5 +150,8 @@ export default {
 } */
 .selected {
   color: red;
+}
+.completed {
+  text-decoration: line-through;
 }
 </style>
