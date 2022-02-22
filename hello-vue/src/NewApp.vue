@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <TaskItem v-for="(task, index) in tasks" :key="index" />
+    <TaskItem v-for="(task, index) in tasks" :key="index" :taskData="task" />
+    <hr />
+    <TagSelector />
   </div>
 </template>
 
 <script>
 import TaskItem from "./components/TaskItem.vue";
+import TagSelector from "./components/TagSelector.vue";
 
 export default {
   name: "App",
@@ -21,6 +24,7 @@ export default {
   },
   components: {
     TaskItem,
+    TagSelector,
   },
 };
 </script>
